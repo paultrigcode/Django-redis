@@ -42,3 +42,16 @@ def view_cached_books(request):
         # store data in cache
         cache.set(products, results, timeout=CACHE_TTL)
         return Response(results, status=status.HTTP_201_CREATED)
+
+
+@api_view(['POST'])
+def post_books(request):
+    data = request.data
+    print(data['price'])
+    product = Product.objects.create(name=request.data['name'],description=request.data['description'],price=int(request.data['price']))
+
+    # products = Product.objects.all()
+    # results = [product.to_json() for product in products]
+    return Response(product.to_json(), status=status.HTTP_201_CREATED)
+
+
